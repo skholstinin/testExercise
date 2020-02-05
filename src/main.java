@@ -1,9 +1,24 @@
+import sun.security.mscapi.KeyStore;
+
 import java.math.BigDecimal;
 import java.util.*;
 
 public class main {
 
     static void filter(Collection<BigDecimal> numbers) throws MyException {
+
+        try {
+            BigDecimal[] bdArray = new BigDecimal[numbers.size()];
+            bdArray = (BigDecimal[]) numbers.toArray(bdArray);
+            quickSort(bdArray, 0, bdArray.length - 1);
+            BigDecimal delta = bdArray[bdArray.length - 1].divide(bdArray[0], BigDecimal.ROUND_DOWN);
+            Collection<BigDecimal> result = deleteElement(Arrays.asList(bdArray), delta);
+            for (BigDecimal item : result) {
+                System.out.println(item);
+            }
+        } catch (MyException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -57,18 +72,8 @@ public class main {
         bigList.add(new BigDecimal("78.324687"));
         bigList.add(new BigDecimal("1023.124556"));
 
-        BigDecimal[] bdArray = new BigDecimal[bigList.size()];
-        bdArray = (BigDecimal[]) bigList.toArray(bdArray);
-        quickSort(bdArray, 0, bdArray.length - 1);
-        BigDecimal delta = bdArray[bdArray.length - 1].divide(bdArray[0], BigDecimal.ROUND_DOWN);
-        Collection<BigDecimal> result = deleteElement(Arrays.asList(bdArray), delta);
-        for (BigDecimal item : result) {
-            System.out.println(item);
-        }
+        filter(bigList);
 
-        for (int i = 0; i < bdArray.length; i++) {
-            System.out.println(bdArray[i]);
-        }
 
     }
 
